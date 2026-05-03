@@ -1,123 +1,133 @@
-# 🔍 Fato ou Fake - Fact-Checking MVP
+# Fato ou Fake
 
-  Um aplicativo mobile-first para verificação de fatos usando IA (Gemini). Analise links e descubra se as informações são verdadeiras, falsas ou duvidosas.
+Aplicação web mobile-first para verificação de informações com apoio de IA. O sistema aceita links e perguntas em texto livre, retornando classificação de confiabilidade como verdadeiro, falso ou duvidoso.
 
-## ✨ Características
+## Visão Geral
 
-- ✅ **Verificação em Tempo Real**: Integração com Gemini API
-- 📱 **Mobile-First**: Design responsivo com simulação de smartphone
-- 🎨 **Glassmorphism Design**: Interface moderna com animações suaves
-- 💾 **Histórico Local**: Salva últimas 3 pesquisas em localStorage
-- 🌐 **PWA**: Instalável como app nativo com suporte offline
-- ♿ **Acessibilidade**: ARIA labels e semântica completa
-- 🔒 **TypeScript**: Type-safe em 100%
+Este projeto foi desenvolvido como trabalho escolar com foco em cidadania digital e combate a desinformação.
 
-## 🚀 Quick Start
+- Escola: Colégio Lidia Cruz
+- Turma: 9 ano
+- Equipe:
+  - Livia Ornelas
+  - Eloah Nonato
+  - Amanda de Lima
 
-### 1. Clone e Configure
+## Objetivo do Projeto
+
+- Incentivar análise crítica de conteúdos online.
+- Demonstrar uso responsável de inteligência artificial em contexto educacional.
+- Aplicar boas práticas de desenvolvimento frontend em um produto real.
+
+## Principais Funcionalidades
+
+- Verificação de link ou pergunta em texto livre.
+- Classificação semântica: verdadeiro, falso ou duvidoso.
+- Índice de confiança percentual.
+- Resumo analítico da resposta da IA.
+- Histórico local das 3 últimas verificações.
+- Interface mobile-first com estilo glassmorphism.
+- Experiência PWA instalável.
+
+## Stack Tecnológica
+
+- React 18
+- Vite 5
+- TypeScript 5
+- Tailwind CSS
+- Shadcn-style components
+- Groq API (modelo `llama-3.1-8b-instant`)
+- vite-plugin-pwa (Workbox)
+
+## Arquitetura (Resumo)
+
+```text
+src/
+  App.tsx
+  components/
+    ResultCard.tsx
+    HistoryPanel.tsx
+    Skeleton.tsx
+    StatusBadge.tsx
+    OfflineBanner.tsx
+  services/
+    verificationService.ts
+    historyService.ts
+  types.ts
+```
+
+## Requisitos
+
+- Node.js 18+
+- npm 9+
+- Chave de API Groq gratuita
+
+## Configuração de Ambiente
+
+Crie o arquivo `.env` na raiz do projeto:
+
+```env
+VITE_GROQ_API_KEY=sua_chave_groq
+```
+
+Gerar chave gratuita:
+
+- Acesse `https://console.groq.com`
+- Crie uma API Key em `API Keys`
+
+## Como Executar
+
+Instalar dependências:
 
 ```bash
 npm install
 ```
 
-### 2. Configure a Chave de API
-
-Crie um arquivo `.env` na raiz do projeto:
-
-```env
-VITE_GEMINI_API_KEY=sua_chave_de_api_aqui
-```
-
-Para obter uma chave gratis, acesse: https://aistudio.google.com/apikey
-
-### 3. Inicie o Servidor
+Rodar em desenvolvimento:
 
 ```bash
 npm run dev
 ```
 
-Abra http://localhost:5173 no navegador.
-
-## 📦 Build para Produção
+Gerar build de produção:
 
 ```bash
 npm run build
 ```
 
-Os arquivos de saída estarão em `dist/` com o service worker PWA incluído.
+## Scripts Disponíveis
 
-## 📁 Estrutura do Projeto
+- `npm run dev`: inicia ambiente de desenvolvimento.
+- `npm run build`: valida TypeScript e gera build de produção.
+- `npm run preview`: inicia preview local da build.
 
-```
-src/
-├── App.tsx                          # Componente principal
-├── index.css                        # Estilos globais + classes utilitárias
-├── types.ts                         # Tipos TypeScript
-├── env.d.ts                         # Declaração de variáveis de ambiente
-├── services/
-│   ├── verificationService.ts       # Integracao com Gemini API
-│   └── historyService.ts            # Gerenciamento de histórico
-└── components/
-    ├── ResultCard.tsx               # Card de resultado
-    ├── StatusBadge.tsx              # Badge de classificação
-    ├── Skeleton.tsx                 # Loader animado
-    ├── HistoryPanel.tsx             # Painel de histórico
-    └── OfflineBanner.tsx            # Aviso de sem internet
-```
+## Fluxo de Uso
 
-## 🎯 Como Funciona
+1. Digite um link ou uma pergunta no campo principal.
+2. Clique em verificar.
+3. Aguarde a análise da IA.
+4. Consulte o status, confiança e explicação.
+5. Reutilize entradas pelo histórico local.
 
-1. **Input**: Cole uma URL no campo "Link para verificar"
-2. **Validação**: Regex valida se é uma URL válida
-3. **Analise**: A API Gemini analisa o conteudo da pagina
-4. **Resultado**: Exibe classificação (Verdadeiro/Falso/Duvidoso) + confiança
-5. **Histórico**: Salva automaticamente as 3 últimas pesquisas
+## Boas Práticas Aplicadas
 
-## 🔧 Stack Técnico
+- Componentização e separação de responsabilidades.
+- Tipagem estática com TypeScript.
+- Tratamento de erro e feedback ao usuário.
+- Persistência local controlada.
+- Acessibilidade básica com labels e ARIA.
 
-- **Frontend**: React 18 + Vite
-- **Estilos**: Tailwind CSS + animações customizadas
-- **IA**: Google Gemini API (REST)
-- **PWA**: vite-plugin-pwa + Workbox
-- **Linguagem**: TypeScript 5
-- **Acessibilidade**: ARIA, semântica HTML
+## Melhorias Futuras
 
-## 📝 Exemplo de Uso
+- Painel com estatísticas das verificações.
+- Exportação de histórico em PDF.
+- Integração com fontes jornalísticas verificadas.
+- Controle de taxa com fila de requisições.
 
-```typescript
-import { verifyLink } from './services/verificationService'
+## Aviso Educacional
 
-const result = await verifyLink('https://exemplo.com/noticia')
-// {
-//   url: 'https://exemplo.com/noticia',
-//   status: 'verdadeiro' | 'falso' | 'duvidoso',
-//   confidence: 85,
-//   analysis: 'Análise detalhada...',
-//   checkedAt: 1472567812
-// }
-```
+As respostas da IA servem como apoio ao estudo e não substituem validação em fontes oficiais e jornalísticas confiáveis.
 
-## 🌍 Ambiente de Desenvolvimento
+## Licença
 
-Variáveis disponíveis em `import.meta.env`:
-
-| Variável | Descrição |
-|----------|-----------|
-| `VITE_GEMINI_API_KEY` | Chave da API Gemini |
-
-## 🤝 Melhorias Futuras
-
-- [ ] Integração com APIs de fact-checking (Lupa, Aos Fatos)
-- [ ] Análise de imagens e vídeos
-- [ ] Compartilhamento de resultados
-- [ ] Estatísticas e gráficos de tendências
-- [ ] Multilíngue (EN, ES, FR)
-- [ ] Dark mode (ja disponível!)
-
-## 📄 Licença
-
-MIT
-
----
-
-**Desenvolvido com ❤️ para combate a desinformação**
+Uso educacional.
