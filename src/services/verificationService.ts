@@ -1,13 +1,14 @@
 import type { QueryType, VerificationResult, VerificationStatus } from '../types'
 
-// Groq — API gratuita, 30 req/min, compatível com OpenAI
+// Groq — compatível com OpenAI
 // Crie sua chave em: https://console.groq.com
 const groqKey = import.meta.env.VITE_GROQ_API_KEY
 if (!groqKey) {
   console.error('VITE_GROQ_API_KEY nao configurada no arquivo .env')
 }
 
-const GROQ_MODEL = 'llama-3.1-8b-instant'
+// Default mais preciso; use VITE_GROQ_MODEL para trocar sem alterar o codigo.
+const GROQ_MODEL = import.meta.env.VITE_GROQ_MODEL || 'llama-3.3-70b-versatile'
 const GROQ_ENDPOINT = 'https://api.groq.com/openai/v1/chat/completions'
 
 /**
@@ -105,8 +106,8 @@ Analise: [texto da analise]`
 }
 
 /**
- * Verifies a URL or free-text question using Groq free API
- * Model: llama-3.1-8b-instant — 30 req/min no plano gratuito
+ * Verifies a URL or free-text question using Groq API
+ * Default model: llama-3.3-70b-versatile
  */
 export async function verifyQuery(query: string): Promise<VerificationResult> {
   if (!groqKey) {
