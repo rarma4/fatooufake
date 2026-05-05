@@ -101,7 +101,7 @@ export async function verifyQuery(query: string): Promise<VerificationResult> {
         messages: [
           {
             role: 'system',
-            content: 'Voce e um verificador de fatos especializado em noticias em portugues. Sempre responda no formato solicitado.',
+            content: `Voce e um verificador de fatos especializado em noticias em portugues. Sempre responda no formato solicitado. A data atual e ${new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' })}. Para afirmacoes matematicas ou de calendario (como anos bissextos), calcule com rigor: um ano e bissexto se for divisivel por 4, EXCETO se divisivel por 100, SALVO se tambem divisivel por 400.`,
           },
           {
             role: 'user',
