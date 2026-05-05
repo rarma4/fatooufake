@@ -54,6 +54,31 @@ export function detectQueryType(input: string): QueryType {
   return URL_PATTERN.test(input.trim()) ? 'url' : 'text'
 }
 
+function isLeapYear(year: number): boolean {
+  return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0
+}
+
+function getLeapYearFact(query: string): string | null {
+  const match =
+    query.match(/\b(\d{4})\b[\s\S]*(bissexto|leap\s*year)/i) ??
+    query.match(/(bissexto|leap\s*year)[\s\S]*\b(\d{4})\b/i)
+  if (!match) return null
+
+  const year = parseInt(match[1] ?? match[2], 10)
+  if (isNaN(year)) return null
+
+  const leap = isLeapYear(year)
+  const reason = leap
+    ? year % 400 === 0
+      ? `divisível por 400`
+      : `divisível por 4 (${year} ÷ 4 = ${year / 4}) e não por 100`
+    : year % 4 !== 0
+      ? `não divisível por 4 (${year} ÷ 4 = ${(year / 4).toFixed(2)})`
+      : `divisível por 100 mas não por 400`
+
+  return `FATO VERIFICADO MATEMATICAMENTE: O ano ${year} ${leap ? 'É' : 'NÃO É'} bissexto (${reason}). Use este fato como verdade absoluta na sua análise.`
+}
+
 function buildPrompt(query: string, queryType: QueryType): string {
   const subject =
     queryType === 'url'
@@ -61,10 +86,12 @@ function buildPrompt(query: string, queryType: QueryType): string {
       : `a seguinte afirmação ou pergunta`
 
   const inputLabel = queryType === 'url' ? `URL: ${query}` : `Conteúdo: "${query}"`
+  const leapFact = getLeapYearFact(query)
+  const factBlock = leapFact ? `\n\n${leapFact}` : ''
 
   return `Você é um verificador de fatos. Analise ${subject} e determine se é verdadeiro, falso ou duvidoso.
 
-${inputLabel}
+${inputLabel}${factBlock}
 
 Forneça:
 1. Uma classificação: "Verdadeiro", "Falso" ou "Duvidoso"
